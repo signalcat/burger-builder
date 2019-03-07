@@ -4,6 +4,7 @@ import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
+import { runInThisContext } from 'vm';
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
@@ -100,7 +101,8 @@ class BurgerBuilder extends Component {
                   <OrderSummary 
                       ingredients={this.state.ingredients}
                       purchaseCancelled={this.purchaseCancelHander}
-                      puchaseContinued={this.puchaseContinueHandler}></OrderSummary>
+                      puchaseContinued={this.puchaseContinueHandler}
+                      price={this.state.totalPrice}></OrderSummary>
               </Modal>
               <Burger ingredients={this.state.ingredients}></Burger>
               <BuildControls
