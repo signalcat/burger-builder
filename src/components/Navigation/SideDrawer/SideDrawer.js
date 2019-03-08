@@ -20,7 +20,6 @@ const sideDrawer = (props) => {
                 </div>
                 <nav>
                     <NavigationItems>
-
                     </NavigationItems>
                 </nav>
             </div>
