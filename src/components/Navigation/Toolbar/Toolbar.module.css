@@ -21,3 +21,10 @@
 .Logo {
     height: 80%;
 }
+
+/* If device size is smaller than 499px, turn off the display */
+@media (max-width: 499px) {
+    .DesktopOnly {
+        display: none;
+    }
+}
