@@ -94,7 +94,7 @@ class BurgerBuilder extends Component {
     puchaseContinueHandler = () => {
         // alert('You continue!');
 
-        this.setState({loading: true});
+        //this.setState({loading: true});
 
         // // For firebase, the name is the node name + .json
         // const order = {
@@ -120,9 +120,18 @@ class BurgerBuilder extends Component {
         //     .catch(error => {
         //         this.setState({loading: false, purchasing: false});
         //     });
-        console.log(this.props);
-        this.props.history.push('/checkout');
-
+        // console.log(this.props);
+        
+        // Pass ingredients via query parameters
+        const queryParams = [];
+        for (let i in this.state.ingredients) {
+            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
+        }
+        const queryString = queryParams.join('&');
+        this.props.history.push({
+            pathname: '/checkout',
+            search: '?' + queryString
+        });
     }
 
     render() {
