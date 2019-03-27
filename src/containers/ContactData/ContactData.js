@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Button from '../../components/UI/Button/Button';
 import classes from './ContactData.module.css';
 import axios from '../../hoc/axios.order';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 class ContactData extends Component {
     state = {
@@ -16,7 +17,7 @@ class ContactData extends Component {
 
     submitOrderHandler = (event) => {
         event.preventDefault();
-        console.log(this.props.ingredients);
+        console.log(this.props);
         this.setState({loading: true});
         
         // For firebase, the name is the node name + .json
@@ -39,6 +40,7 @@ class ContactData extends Component {
         axios.post('/orders.json', order)
             .then(response => {
                 this.setState({loading: false});
+                this.props.history.push('/');
             })
             .catch(error => {
                 this.setState({loading: false});
@@ -47,16 +49,23 @@ class ContactData extends Component {
     }
 
     render () {
+        let form = (
+            <form>
+                <input className={classes.Input} type="text" name="name" placeholder="Your name"></input>
+                <input className={classes.Input} type="email" name="email" placeholder="Your email"></input>
+                <input className={classes.Input} type="text" name="street" placeholder="Your street"></input>
+                <input className={classes.Input} type="text" name="postal" placeholder="Your zipcode"></input>
+                <Button btnType="Success" clicked={this.submitOrderHandler}>ORDER</Button>
+            </form>
+        );
+
+        if (this.state.loading) {
+            form=<Spinner />;
+        }
         return (
             <div className={classes.ContactData}>
                 <h4>Enter your contact data</h4>
-                <form>
-                    <input className={classes.Input} type="text" name="name" placeholder="Your name"></input>
-                    <input className={classes.Input} type="email" name="email" placeholder="Your email"></input>
-                    <input className={classes.Input} type="text" name="street" placeholder="Your street"></input>
-                    <input className={classes.Input} type="text" name="postal" placeholder="Your zipcode"></input>
-                    <Button btnType="Success" clicked={this.submitOrderHandler}>ORDER</Button>
-                </form>
+                {form}
             </div>
         )
     }
