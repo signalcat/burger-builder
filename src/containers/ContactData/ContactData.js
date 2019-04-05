@@ -92,11 +92,25 @@ class ContactData extends Component {
             .catch(error => {
                 this.setState({loading: false});
             });
-        console.log(this.props);
+    }
+
+    inputChangedHandler = (event, inputId) => {
+        // Copy the state object 
+        const updatedOrderForm = {
+            ...this.state.orderForm
+        }
+        // Copy the nested state object 
+        const updatedFormElement = {
+            ...updatedOrderForm[inputId]
+        };
+        // Update a specific value based on user input
+        updatedFormElement.value = event.target.value;
+        // Update the new state object 
+        updatedOrderForm[inputId] = updatedFormElement;
+        this.setState({orderForm: updatedOrderForm});
     }
 
     render () {
-
         // Create an array to hold form elements configs to loop through 
         const formElementsArray = [];
         for (let key in this.state.orderForm) {
@@ -105,7 +119,6 @@ class ContactData extends Component {
                 config: this.state.orderForm[key]
             });
         }
-        console.log(formElementsArray);
 
         let form = (
             <form>
@@ -114,7 +127,8 @@ class ContactData extends Component {
                         key={formElement.id} 
                         elementType={formElement.config.elementType} 
                         elementConfig={formElement.config.elementConfig} 
-                        value={formElement.config.value}></Input>
+                        value={formElement.config.value}
+                        changed={(event) => this.inputChangedHandler(event, formElement.id)}></Input>
                 ))}
                 <Button btnType="Success" clicked={this.submitOrderHandler}>ORDER</Button>
             </form>
