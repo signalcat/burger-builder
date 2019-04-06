@@ -83,10 +83,13 @@ class ContactData extends Component {
                         {value: 'cheapest', displayValue: 'Cheapest'}
                     ]
                 },
-                value: '',
+                value: 'fastest',
+                valid: true,
+                validation: {},
                 touched: false
             }
         },
+        formIsValid: false,
         loading: false
     }
 
@@ -128,14 +131,19 @@ class ContactData extends Component {
         };
         // Update a specific value based on user input
         updatedFormElement.value = event.target.value;
-
         // Custom form validation check  
         updatedFormElement.valid = this.checkValidity(updatedFormElement.value, 
                                                         updatedFormElement.validation);
         updatedFormElement.touched = true;
         // Update the new state object 
         updatedOrderForm[inputId] = updatedFormElement;
-        this.setState({orderForm: updatedOrderForm});
+        // Check if every field in form is valid 
+        let formIsValid = true;
+        for (let inputId in updatedOrderForm) {
+            formIsValid = updatedOrderForm[inputId].valid && formIsValid;
+        }
+
+        this.setState({orderForm: updatedOrderForm, formIsValid: formIsValid});
     }
 
     checkValidity (value, rules) {
@@ -175,7 +183,7 @@ class ContactData extends Component {
                         touched={formElement.config.touched}
                         changed={(event) => this.inputChangedHandler(event, formElement.id)}></Input>
                 ))}
-                <Button btnType="Success" clicked={this.submitOrderHandler}>ORDER</Button>
+                <Button btnType="Success" disabled={!this.state.formIsValid} clicked={this.submitOrderHandler}>ORDER</Button>
             </form>
         );
 
