@@ -64,24 +64,19 @@ class ContactData extends Component {
 
     submitOrderHandler = (event) => {
         event.preventDefault();
-        console.log(this.props);
         this.setState({loading: true});
         
+        // Copy the form value from state into a new object 
+        const formData = {};
+        for (let formElementId in this.state.orderForm) {
+            formData[formElementId] = this.state.orderForm[formElementId].value;
+        }
         // For firebase, the name is the node name + .json
         const order = {
             ingredients: this.props.ingredients,
             // In real app, calculate the price on the server side
             totalPrice: this.props.totalPrice,
-            customer: {
-                name: 'Rbc',
-                address: {
-                    stree: 'Teststreet 1',
-                    zipcode: '11111',
-                    country: 'Ger'
-                },
-                email: 'test@test.mail'
-            },
-            deliveryMethod: 'fastest'
+            orderData: formData
         }
 
         axios.post('/orders.json', order)
