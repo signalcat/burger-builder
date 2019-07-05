@@ -20,19 +20,12 @@ class BurgerBuilder extends Component {
 
     // UI related state 
     state = {
-        purchasing: false,
-        loading: false,
-        error: false
+        purchasing: false
+
     }
 
     componentDidMount () {
-        axios.get('https://burger-builder-f8d88.firebaseio.com/ingredients.json')
-            .then(response => {
-                this.setState({ingredients: response.data});
-            })
-            .catch(error => {
-                this.setState({error: true});
-            });
+        this.props.onInitIngredients();
     }
 
     // Check the total number of ingredients 
@@ -73,7 +66,7 @@ class BurgerBuilder extends Component {
         let orderSummary = null;
         
         // Check if ingredients are loaded
-        let burger = this.state.error ? <p>Ingredients can't be loaded!</p> : 
+        let burger = this.props.error ? <p>Ingredients can't be loaded!</p> : 
         <Spinner></Spinner>;
 
         // Render ingredient related components if we have fetched them from firebase 
@@ -116,13 +109,15 @@ class BurgerBuilder extends Component {
 const mapStateToProps = state => {
     return {
         ings: state.ingredients,
-        price: state.totalPrice
+        price: state.totalPrice,
+        error: state.error
     };
-}
+} 
 const mapDispatchToProps = dispatch => {
     return {
         onIngredientAdded: (ingName) => dispatch(burgerBuilderActions.addIngredient(ingName)),
-        onIngredientRemoved: (ingName) => dispatch(burgerBuilderActions.removeIngredient(ingName))
+        onIngredientRemoved: (ingName) => dispatch(burgerBuilderActions.removeIngredient(ingName)),
+        onInitIngredients: () => dispatch(burgerBuilderActions.initIngredients())
     }
 }
 
