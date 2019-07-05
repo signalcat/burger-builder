@@ -4,7 +4,7 @@ import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
-import axios from '../../hoc/axios.order';
+import axios from '../../axios.order';
 import Spinner from '../../components/UI/Spinner/Spinner'
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import { connect } from 'react-redux';
@@ -50,7 +50,7 @@ class BurgerBuilder extends Component {
         this.setState({purchasing: false});
     }
 
-    puchaseContinueHandler = () => {
+    purchaseContinueHandler = () => {
         this.props.history.push('/checkout');
     }
 
@@ -87,7 +87,7 @@ class BurgerBuilder extends Component {
             orderSummary = <OrderSummary 
             ingredients={this.props.ings}
             purchaseCancelled={this.purchaseCancelHander}
-            puchaseContinued={this.puchaseContinueHandler}
+            puchaseContinued={this.purchaseContinueHandler}
             price={this.props.price}></OrderSummary>
         }
 
