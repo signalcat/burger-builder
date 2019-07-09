@@ -107,7 +107,7 @@ class ContactData extends Component {
         const order = {
             ingredients: this.props.ings,
             // In real app, calculate the price on the server side
-            totalPrice: this.props.totalPrice,
+            price: this.props.price,
             orderData: formData
         }
         
