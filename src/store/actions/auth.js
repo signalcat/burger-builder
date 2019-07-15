@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
+import * as constants from'../../constants';
 
 export const authStart = () => {
     return {
@@ -29,7 +30,7 @@ export const auth = (email, password) => {
             password: password,
             returnSecureToken: true
         }
-        axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyAp9bJSxd9BNvENRtQsxbwtb0lYFpTgrK8', 
+        axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key='+ constants.authKey, 
         authData)
         .then(response => {
             console.log(response);
@@ -37,6 +38,7 @@ export const auth = (email, password) => {
         })
         .catch(err => {
             console.log(err);
+            console.log(constants.authKey);
             dispatch(authFail(err));
         });
     };
