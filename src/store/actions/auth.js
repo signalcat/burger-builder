@@ -63,3 +63,10 @@ export const auth = (email, password, isSignup) => {
     };
 };
 
+// Action to change the redirect path dynamically 
+export const setAuthRedirectPath = (path) => {
+    return {
+        type: actionTypes.SET_AUTH_REDIRECT_PATH,
+        path: path
+    }
+}
