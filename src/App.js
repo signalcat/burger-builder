@@ -7,7 +7,6 @@ import Orders from './containers/Orders/Orders';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import Auth from './containers/Auth/Auth';
 import Logout from './containers/Auth/Logout/Logout';
-
 import * as actions from './store/actions/index';
 
 class App extends Component {
