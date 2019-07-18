@@ -7,6 +7,7 @@ import Input from '../../../components/UI/Input/Input';
 import { connect } from "react-redux";
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
 import * as actions from '../../../store/actions/index';
+import { updateObject } from '../../../shared/utility';
 
 class ContactData extends Component {
     state = {
@@ -116,23 +117,22 @@ class ContactData extends Component {
     }
 
     inputChangedHandler = (event, inputId) => {
-        // Copy the state object 
-        const updatedOrderForm = {
-            ...this.state.orderForm
-        }
-        // Copy the nested state object 
-        const updatedFormElement = {
-            ...updatedOrderForm[inputId]
-        };
-        // Update a specific value based on user input
-        updatedFormElement.value = event.target.value;
-        // Custom form validation check  
-        updatedFormElement.valid = this.checkValidity(updatedFormElement.value, 
-                                                        updatedFormElement.validation);
-        updatedFormElement.touched = true;
-        // Update the new state object 
-        updatedOrderForm[inputId] = updatedFormElement;
-        // Check if every field in form is valid 
+
+        // Update each field in the form 
+        const updatedFormElement = updateObject(this.state.orderForm[inputId], {
+            // Update a specific value based on user input
+            value: event.target.value,
+            // Custom form validation check  
+            valid: this.checkValidity(event.target.value, this.state.orderForm[inputId].validation),
+            touched: true
+        });
+        
+        // Update the entire form  
+        const updatedOrderForm = updateObject(this.state.orderForm, {
+            [inputId]: updatedFormElement
+        });
+    
+        // Check if every field is valid 
         let formIsValid = true;
         for (let inputId in updatedOrderForm) {
             formIsValid = updatedOrderForm[inputId].valid && formIsValid;
